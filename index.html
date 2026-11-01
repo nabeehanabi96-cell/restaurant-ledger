@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Ledger</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #172b4d;
+    color: #ffffff;
+    line-height: 1.5;
+  }
+  section { padding: 80px 24px; }
+  .wrap { max-width: 1232px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-block;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 9999px;
+    padding: 5px 15px;
+    color: #10b981;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: 56px; line-height: 1.1; }
+  h2 { font-size: 40px; line-height: 1.2; }
+  h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  p.lead { color: #cbd5e1; font-size: 18px; }
+  .center { text-align: center; }
+  .muted { color: #94a3b8; font-size: 14px; }
+  .card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: #0f3d2e; color: #10b981;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 20px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #334155;
+    background: transparent;
+    cursor: pointer;
+  }
+  .btn-primary { background: #2563eb; border-color: #2563eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1); }
+
+  /* Hero */
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .mock {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .mock-bar { display: flex; gap: 6px; padding: 12px 16px; background: #1e293b; align-items: center; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #475569; }
+  .mock-body { padding: 20px; }
+  .metric {
+    background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px;
+  }
+  .metric small { color: #94a3b8; font-size: 12px; }
+  .metric strong { display: block; font-size: 22px; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid #334155; }
+  th { color: #94a3b8; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+  .pill { background: #0f3d2e; color: #10b981; padding: 3px 10px; border-radius: 9999px; font-size: 12px; }
+  .pill.due { background: #3b2a0f; color: #f59e0b; }
+
+  /* Form */
+  .form-card { max-width: 480px; margin: 0 auto; }
+  label { display: block; font-size: 14px; color: #cbd5e1; margin-bottom: 6px; font-weight: 600; }
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 18px;
+    font-family: inherit;
+  }
+  input:focus { outline: none; border-color: #2563eb; }
+  .form-msg { margin-top: 16px; font-size: 15px; text-align: center; min-height: 22px; }
+  .form-msg.ok { color: #10b981; }
+  .form-msg.err { color: #f87171; }
+  button.btn-primary:disabled { opacity: .6; cursor: default; }
+
+  footer { padding: 32px 24px; text-align: center; color: #94a3b8; font-size: 12px; border-top: 1px solid #334155; }
+
+  @media (max-width: 900px) {
+    h1 { font-size: 40px; }
+    h2 { font-size: 30px; }
+    .hero-grid, .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Welcome to Shop Ledger</span>
+      <h1 style="margin-top:24px;">Run your hotel's money with clarity.</h1>
+      <p class="lead" style="margin-top:20px;">Here is your hotel's daily overview: sales, dues, payments and expenses, all in one place.</p>
+      <div style="margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="#signup">Get Started Free</a>
+        <a class="btn" href="#features">Explore Features</a>
+      </div>
+    </div>
+    <div class="mock">
+      <div class="mock-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="mock-body">
+        <div class="grid-4" style="grid-template-columns:repeat(2,1fr);">
+          <div class="metric"><small>Today's Sales</small><strong>₹12,450</strong></div>
+          <div class="metric"><small>Customer Dues</small><strong>₹8,750</strong></div>
+          <div class="metric"><small>Payments Recv</small><strong>₹6,200</strong></div>
+          <div class="metric"><small>Today's Expenses</small><strong>₹2,300</strong></div>
+        </div>
+        <p class="muted" style="margin-top:14px;">Room rent + food orders · Advance UPI &amp; Cash desk · To collect at checkout</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM AND SOLUTION -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">The problem</span>
+      <h2 style="margin-top:20px;">Guest accounts shouldn't live in notebooks.</h2>
+      <p class="lead" style="margin-top:16px;">Scattered records lead to missed payments and confused checkouts.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="icon">✎</div><h3>Handwritten ledgers</h3><p class="lead">Hard to search, easy to lose, and slow to total at the end of the day.</p></div>
+      <div class="card"><div class="icon">₹</div><h3>Untracked dues</h3><p class="lead">Guests leave with balances nobody remembers until the next visit.</p></div>
+      <div class="card"><div class="icon">◷</div><h3>Late reconciliation</h3><p class="lead">Cash, UPI and counter sales are checked by hand after the shift ends.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">Core features</span>
+      <h2 style="margin-top:20px;">Everything your front desk needs.</h2>
+      <p class="lead" style="margin-top:16px;">Eight tools that keep guest accounts, payments and daily records in step.</p>
+    </div>
+    <div class="grid-4" style="grid-template-columns:repeat(3,1fr);">
+      <div class="card"><div class="icon">👤</div><h3>Guest accounts</h3><p class="lead">Open and track a running balance for every guest.</p></div>
+      <div class="card"><div class="icon">✉</div><h3>Payment records</h3><p class="lead">Log cash and UPI payments against the right account.</p></div>
+      <div class="card"><div class="icon">▤</div><h3>Daily sales</h3><p class="lead">See room tariffs and counter orders as they happen.</p></div>
+      <div class="card"><div class="icon">⟲</div><h3>Credit tracking</h3><p class="lead">Know who owes money and who has credit with you.</p></div>
+      <div class="card"><div class="icon">▦</div><h3>Expense log</h3><p class="lead">Record supplies, milk, gas and repairs in seconds.</p></div>
+      <div class="card"><div class="icon">⎙</div><h3>Printable bills</h3><p class="lead">Give guests a clear statement at checkout.</p></div>
+      <div class="card"><div class="icon">⌁</div><h3>Reports</h3><p class="lead">Daily and weekly views of money in and out.</p></div>
+      <div class="card"><div class="icon">✓</div><h3>Simple to learn</h3><p class="lead">Built for everyday hotel operations, not accountants.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">Dashboard preview</span>
+      <h2 style="margin-top:20px;">See the whole day at a glance.</h2>
+      <p class="lead" style="margin-top:16px;">Sales, dues and expenses update as your staff record them.</p>
+    </div>
+    <div class="mock">
+      <div class="mock-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="mock-body">
+        <h3>Welcome to Shop Ledger</h3>
+        <p class="muted" style="margin-bottom:20px;">Here is your hotel's daily overview.</p>
+        <div class="grid-4" style="margin-bottom:24px;">
+          <div class="metric"><small>Today's Sales</small><strong>₹12,450</strong></div>
+          <div class="metric"><small>Payments Collected</small><strong>₹6,200</strong></div>
+          <div class="metric"><small>Outstanding Dues</small><strong>₹8,750</strong></div>
+          <div class="metric"><small>Daily Expenses</small><strong>₹2,300</strong></div>
+        </div>
+        <div class="card" style="padding:0;">
+          <table>
+            <thead><tr><th>Guest</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Sample guest A</td><td>Room rent + food orders</td><td>₹4,500</td><td><span class="pill">Paid</span></td></tr>
+              <tr><td>Sample guest B</td><td>Advance via UPI</td><td>₹2,000</td><td><span class="pill">Paid</span></td></tr>
+              <tr><td>Sample guest C</td><td>Counter order</td><td>₹2,500</td><td><span class="pill due">Due</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">How it works</span>
+      <h2 style="margin-top:20px;">Three steps from check-in to checkout.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="icon">1</div><h3>Open the account</h3><p class="lead">Create a guest account at check-in with the room and tariff.</p></div>
+      <div class="card"><div class="icon">2</div><h3>Record as you go</h3><p class="lead">Add food orders, payments and counter sales as they happen.</p></div>
+      <div class="card"><div class="icon">3</div><h3>Settle at checkout</h3><p class="lead">See the full balance and print a clear statement.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDIT LEDGER -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">Customer credit ledger</span>
+      <h2 style="margin-top:20px;">Every guest balance, always current.</h2>
+    </div>
+    <div class="grid-3" style="margin-bottom:24px;">
+      <div class="card"><small class="muted">Room rent + food orders</small><strong style="display:block;font-size:32px;margin-top:8px;">₹4,500</strong></div>
+      <div class="card"><small class="muted">Advance UPI &amp; Cash desk</small><strong style="display:block;font-size:32px;margin-top:8px;">₹2,000</strong></div>
+      <div class="card"><small class="muted">Credit balance</small><strong style="display:block;font-size:32px;margin-top:8px;">₹2,500</strong><small class="muted">To collect at checkout</small></div>
+    </div>
+    <div class="card" style="padding:0;">
+      <table>
+        <thead><tr><th>Date</th><th>Guest</th><th>Type</th><th>Amount</th></tr></thead>
+        <tbody>
+          <tr><td>01 Nov</td><td>Sample guest A</td><td>Room tariff</td><td>₹3,000</td></tr>
+          <tr><td>01 Nov</td><td>Sample guest B</td><td>Advance</td><td>₹2,000</td></tr>
+          <tr><td>01 Nov</td><td>Sample guest C</td><td>Counter order</td><td>₹2,500</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted center" style="margin-top:20px;"><strong style="color:#fff;">How this protects your hotel:</strong> every rupee is tied to a named account.</p>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">Benefits for hotel employees</span>
+      <h2 style="margin-top:20px;">Less chasing, more time for guests.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="icon">★</div><h3>Faster shifts</h3><p class="lead">Staff spend less time reconciling and more time at the desk.</p></div>
+      <div class="card"><div class="icon">✔</div><h3>Fewer mistakes</h3><p class="lead">Each entry is linked to a guest, so nothing gets lost in handoffs.</p></div>
+      <div class="card"><div class="icon">☺</div><h3>Easy training</h3><p class="lead">Simple screens mean new staff are productive from day one.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REPORTS -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">Reports and financial overview</span>
+      <h2 style="margin-top:20px;">Understand where the money goes.</h2>
+    </div>
+    <div class="grid-4" style="margin-bottom:24px;">
+      <div class="metric"><small>Daily Sales Summary</small><strong>₹12,450</strong><small>Room tariff + counter orders</small></div>
+      <div class="metric"><small>Payments Collected</small><strong>₹6,200</strong><small>Cash in till &amp; instant UPI</small></div>
+      <div class="metric"><small>Outstanding Customer Dues</small><strong>₹8,750</strong><small>Credit balance with active guests</small></div>
+      <div class="metric"><small>Daily Expenses</small><strong>₹2,300</strong><small>Supplies, milk, gas &amp; repairs</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section>
+  <div class="wrap">
+    <div class="center" style="max-width:672px; margin:0 auto 48px;">
+      <span class="eyebrow">Security and reliability</span>
+      <h2 style="margin-top:20px;">Your records, protected.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card"><div class="icon">⚿</div><h3>Private access</h3><p class="lead">Only staff you approve can see guest accounts.</p></div>
+      <div class="card"><div class="icon">⟳</div><h3>Reliable backups</h3><p class="lead">Your data is stored safely and kept in step across devices.</p></div>
+      <div class="card"><div class="icon">⌂</div><h3>Built to last</h3><p class="lead">Designed to keep working through busy shifts.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap" style="max-width:880px;">
+    <div class="center" style="margin-bottom:48px;">
+      <span class="eyebrow">Frequently asked questions</span>
+      <h2 style="margin-top:20px;">Questions hotel owners ask.</h2>
+    </div>
+    <div class="card" style="padding:0;">
+      <details style="padding:20px 24px; border-bottom:1px solid #334155;"><summary style="cursor:pointer; font-weight:600;">Do I need training to use it?</summary><p class="lead" style="margin-top:10px;">No. The screens are simple and built for front-desk staff.</p></details>
+      <details style="padding:20px 24px; border-bottom:1px solid #334155;"><summary style="cursor:pointer; font-weight:600;">Does it handle UPI and cash?</summary><p class="lead" style="margin-top:10px;">Yes. Record cash and UPI payments against any guest account.</p></details>
+      <details style="padding:20px 24px; border-bottom:1px solid #334155;"><summary style="cursor:pointer; font-weight:600;">Can I see daily totals?</summary><p class="lead" style="margin-top:10px;">Yes. The dashboard shows sales, payments, dues and expenses for the day.</p></details>
+      <details style="padding:20px 24px;"><summary style="cursor:pointer; font-weight:600;">How do I get started?</summary><p class="lead" style="margin-top:10px;">Leave your name and phone number below and we will get in touch.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA + FORM -->
+<section id="signup">
+  <div class="wrap center" style="max-width:768px;">
+    <span class="eyebrow">Upgrade your desk today</span>
+    <h2 style="margin-top:24px; font-size:48px; line-height:1.1;">Make Every Hotel Transaction Count.</h2>
+    <p class="lead" style="margin-top:20px;">Bring your guest accounts, payments, sales, and daily records together with Shop Ledger.</p>
+
+    <div class="card form-card" style="margin-top:40px; text-align:left;">
+      <form id="leadForm" novalidate>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Your full name" required>
+        <label for="phone">Phone number</label>
+        <input id="phone" name="phone" type="tel" placeholder="Your phone number" required>
+        <button id="submitBtn" class="btn btn-primary" type="submit" style="width:100%;">Get Started Free</button>
+        <div id="formMsg" class="form-msg"></div>
+      </form>
+    </div>
+
+    <p class="muted" style="margin-top:24px;">Simple to learn. Easy to use. Built for everyday hotel operations.</p>
+  </div>
+</section>
+
+<footer>© Shop Ledger</footer>
+
+<script>
+  // Replace with your deployed Apps Script web app URL (already set below)
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDd4vnL2TmFQOZ_mbM2Pk7FrXMJIdccvp-DTXuT0r1O74XL0Xgh_e7ZlzlZ8dPeQsIKg/exec";
+
+  var form = document.getElementById("leadForm");
+  var msg = document.getElementById("formMsg");
+  var btn = document.getElementById("submitBtn");
+
+  function showSuccess() {
+    msg.className = "form-msg ok";
+    msg.textContent = "Thanks! We'll be in touch soon.";
+    form.reset();
+    btn.disabled = false;
+  }
+
+  function showError() {
+    msg.className = "form-msg err";
+    msg.textContent = "Something went wrong. Please try again.";
+    btn.disabled = false;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById("name").value.trim();
+    var phone = document.getElementById("phone").value.trim();
+
+    if (!name || !phone) {
+      msg.className = "form-msg err";
+      msg.textContent = "Please enter your name and phone number.";
+      return;
+    }
+
+    btn.disabled = true;
+    msg.className = "form-msg";
+    msg.textContent = "Sending...";
+
+    var url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, phone: phone });
+
+    fetch(url, { method: "GET", mode: "no-cors" })
+      .then(function () { showSuccess(); })
+      .catch(function () { showError(); });
+  });
+</script>
+
+</body>
+</html>
